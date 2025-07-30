@@ -1,71 +1,82 @@
-const board = document.getElementById("board");
-const status = document.getElementById("status");
-const playerSpan = document.getElementById("player");
-const resetBtn = document.getElementById("reset");
-const clickSound = document.getElementById("clickSound");
-const winSound = document.getElementById("winSound");
-
-let currentPlayer = "X";
-let gameActive = true;
-let cells = Array(9).fill("");
-
-const winPatterns = [
-  [0,1,2], [3,4,5], [6,7,8],
-  [0,3,6], [1,4,7], [2,5,8],
-  [0,4,8], [2,4,6]
-];
-
-function renderBoard() {
-  board.innerHTML = "";
-  cells.forEach((cell, index) => {
-    const cellDiv = document.createElement("div");
-    cellDiv.classList.add("cell");
-    cellDiv.textContent = cell;
-    cellDiv.dataset.index = index;
-    board.appendChild(cellDiv);
-  });
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(to right, #141e30, #243b55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
 }
 
-function handleClick(e) {
-  const index = e.target.dataset.index;
-  if (!gameActive || cells[index]) return;
-  cells[index] = currentPlayer;
-  clickSound.play();
-  renderBoard();
-  checkWinner();
-  currentPlayer = currentPlayer === "X" ? "O" : "X";
-  playerSpan.textContent = currentPlayer;
+.game-container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
 }
 
-function checkWinner() {
-  for (const pattern of winPatterns) {
-    const [a, b, c] = pattern;
-    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
-      gameActive = false;
-      document.querySelectorAll(".cell")[a].classList.add("win");
-      document.querySelectorAll(".cell")[b].classList.add("win");
-      document.querySelectorAll(".cell")[c].classList.add("win");
-      status.textContent = `Player ${cells[a]} Wins!`;
-      winSound.play();
-      return;
-    }
-  }
-
-  if (!cells.includes("")) {
-    status.textContent = "It's a Draw!";
-    gameActive = false;
-  }
+h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
 }
 
-resetBtn.addEventListener("click", () => {
-  cells = Array(9).fill("");
-  currentPlayer = "X";
-  gameActive = true;
-  status.textContent = "Your Turn: ";
-  playerSpan.textContent = currentPlayer;
-  renderBoard();
-});
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 10px;
+  margin: 20px auto;
+}
 
-board.addEventListener("click", handleClick);
+.cell {
+  width: 100px;
+  height: 100px;
+  background: #f0f0f0;
+  color: #333;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
 
-renderBoard();
+.cell:hover {
+  background: #dcdcdc;
+  transform: scale(1.05);
+}
+
+.cell.win {
+  background: #32cd32;
+  color: white;
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1.0); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1.0); }
+}
+
+.info {
+  margin-top: 20px;
+}
+
+#reset {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: #00bcd4;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#reset:hover {
+  background: #0097a7;
+}
