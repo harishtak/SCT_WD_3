@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Modern To-Do App</title>
+  <title>Tic Tac Toe - Stylish</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app-container">
-    <h1>📝 My To-Do List</h1>
-    <div class="input-group">
-      <input type="text" id="taskInput" placeholder="Enter task name" />
-      <input type="datetime-local" id="taskTime" />
-      <button onclick="addTask()">Add Task</button>
+  <div class="game-container">
+    <h1>Tic Tac Toe</h1>
+    <div id="board" class="board"></div>
+    <div class="info">
+      <p id="status">Your Turn: <span id="player">X</span></p>
+      <button id="reset">Restart Game</button>
     </div>
-    <ul id="taskList"></ul>
   </div>
-
+  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+  <audio id="winSound" src="win.mp3" preload="auto"></audio>
   <script src="script.js"></script>
 </body>
 </html>
-
